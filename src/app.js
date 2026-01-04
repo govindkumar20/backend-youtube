@@ -1,6 +1,10 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import { multerErrorHandler } from "./middlewares/multer.middleware.js";
+
+app.use(multerErrorHandler);
+
 
 const app = express()
 
@@ -26,7 +30,9 @@ import playlistRouter from "./routes/playlist.routes.js"
 import dashboardRouter from "./routes/dashboard.routes.js"
 import healthcheckRouter from "./routes/healthcheck.routes.js"
 
+
 //routes declaration
+app.use(multerErrorHandler);
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/tweets", tweetRouter)
 app.use("/api/v1/subscriptions", subscriptionRouter)

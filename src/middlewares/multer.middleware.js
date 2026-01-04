@@ -1,20 +1,23 @@
-import multer from "multer"
-import fs from "fs"
-import path from "path"
-
-const uploadPath = "./public/temp"
-
-if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true })
-}
+import multer from "multer";
+import { ApiError } from "../utils/apiError.js";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, uploadPath)
+        cb(null, "./public/temp");
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, Date.now() + "-" + file.originalname);
     }
-})
+});
 
-export const upload = multer({ storage })
+export const upload = multer({ storage });
+
+export const multerErrorHandler = (err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        return res.status(400).json({
+            success: false,
+            message: err.message
+        });
+    }
+    next(err);
+};
