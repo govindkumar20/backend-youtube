@@ -3,8 +3,8 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { User } from "../models/user.models.js"
 import { jwt } from "jsonwebtoken"
 import { uploadOnCloudinary} from "../utils/cloudinary.js"
-import ApiError from "../utils/apiError.js"
-import ApiResponse from "../utils/apiResponse.js"
+import {ApiError} from "../utils/apiError.js"
+import {ApiResponse} from "../utils/apiResponse.js"
 
 
 const generateAccessAndRefreshTokens= async (userId)=>{
@@ -247,7 +247,7 @@ const updateAccountDetails= asyncHandler( async(req,res) => {
 
 })
 
-const changeAvatar= asyncHandler( async(req,res) => {
+const updateUserAvatar= asyncHandler( async(req,res) => {
 
     const avatarLocalPath=req.file?.path
 
@@ -290,7 +290,7 @@ const changeAvatar= asyncHandler( async(req,res) => {
     )
 })
 
-const changeCoverImage= asyncHandler( async (req,res)=> {
+const updateUserCoverImage= asyncHandler( async (req,res)=> {
 
     const coverImageLocalPath=req.file?.path
 
@@ -401,3 +401,16 @@ const getUserChannelProfile= asyncHandler( async (req,res) => {
     )
 
 })
+
+export {
+    registerUser,
+    loginUser,
+    logoutUser,
+    refreshAccessToken,
+    changeCurrentPassword,
+    getCurrentUser,
+    updateAccountDetails,
+    updateUserAvatar,
+    updateUserCoverImage,
+    getUserChannelProfile
+}
