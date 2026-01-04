@@ -1,5 +1,5 @@
 import mongoose, { isValidObjectId } from "mongoose"
-import { Likes } from "../models/like.models.js"
+import { Like } from "../models/like.models.js"
 import { ApiError } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
@@ -12,7 +12,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid video ID")
     }
 
-    const existingLike = await Likes.findOne({ // fixed
+    const existingLike = await Like.findOne({ // fixed
         video: videoId,
         likedBy: req.user._id
     })
@@ -24,7 +24,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
         )
     }
 
-    await Likes.create({
+    await Like.create({
         video: videoId,
         likedBy: req.user._id
     })
@@ -42,7 +42,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid comment ID")
     }
 
-    const existingLike = await Likes.findOne({ // fixed
+    const existingLike = await Like.findOne({ // fixed
         comment: commentId,
         likedBy: req.user._id
     })
@@ -54,7 +54,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
         )
     }
 
-    await Likes.create({
+    await Like.create({
         comment: commentId,
         likedBy: req.user._id
     })
@@ -73,7 +73,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid tweet ID")
     }
 
-    const existingLike = await Likes.findOne({
+    const existingLike = await Like.findOne({
         tweet: tweetId,
         likedBy: req.user._id
     })
@@ -85,7 +85,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
         )
     }
 
-    await Likes.create({
+    await Like.create({
         tweet: tweetId,
         likedBy: req.user._id
     })
@@ -96,7 +96,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 })
 
 const getLikedVideos = asyncHandler(async (req, res) => {
-    const likes = await Likes.find({
+    const likes = await Like.find({
         likedBy: req.user._id,
         video: { $exists: true }
     })

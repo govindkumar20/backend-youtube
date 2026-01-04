@@ -1,5 +1,5 @@
 import mongoose, { isValidObjectId } from "mongoose"
-import { Tweets } from "../models/tweet.models.js"
+import { Tweet } from "../models/tweet.models.js"
 import { User } from "../models/user.models.js"
 import { ApiError } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
@@ -32,7 +32,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
     const user = await User.findById(userId)
     if (!user) throw new ApiError(404, "User does not exist")
 
-    const userTweets = await Tweets.find({ owner: userId })
+    const userTweets = await Tweet.find({ owner: userId })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
@@ -49,11 +49,11 @@ const updateTweet = asyncHandler(async (req, res) => {
     if (!newContent) throw new ApiError(400, "All fields are required")
     if (!isValidObjectId(tweetId)) throw new ApiError(400, "Tweet ID is not valid")
 
-    const tweet = await Tweets.findById(tweetId)
+    const tweet = await Tweet.findById(tweetId)
     if (!tweet) throw new ApiError(404, "Tweet does not exist")
     if (req.user?._id.toString() !== tweet?.owner.toString()) throw new ApiError(403, "Unauthorised user")
 
-    const updatedTweet = await Tweets.findByIdAndUpdate(
+    const updatedTweet = await Tweet.findByIdAndUpdate(
         tweetId,
         { content: newContent },
         { new: true }
@@ -71,11 +71,11 @@ const deleteTweet = asyncHandler(async (req, res) => {
 
     if (!isValidObjectId(tweetId)) throw new ApiError(400, "Invalid tweet ID")
 
-    const tweet = await Tweets.findById(tweetId)
+    const tweet = await Tweet.findById(tweetId)
     if (!tweet) throw new ApiError(404, "Tweet does not exist")
     if (tweet.owner.toString() !== req.user?._id.toString()) throw new ApiError(403, "Unauthorised user")
 
-    await Tweets.findByIdAndDelete(tweetId)
+    await Tweet.findByIdAndDelete(tweetId)
 
     return res.status(200).json(
         new ApiResponse(200, {}, "Tweet deleted successfully")

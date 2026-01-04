@@ -1,9 +1,9 @@
 import mongoose, { isValidObjectId } from "mongoose"
-import {Comments} from "../models/comment.models.js"
+import {Comment} from "../models/comment.models.js"
 import {ApiError} from "../utils/apiError.js"
 import {ApiResponse} from "../utils/apiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
-import {Videos} from "../models/video.models.js"
+import {Video} from "../models/video.models.js"
 
 const getVideoComments = asyncHandler(async (req, res) => {
     //TODO: get all comments for a video
@@ -16,13 +16,13 @@ const getVideoComments = asyncHandler(async (req, res) => {
         throw new ApiError(400,"invalid video id")
     }
 
-    const video= await Videos.findById(videoId)
+    const video= await Video.findById(videoId)
 
     if(!video){
         throw new ApiError(400,"video does not exist")
     }
 
-    const videoComments= await Comments.find({video:videoId}).sort({createdAt:-1}).skip(skip).limit(limit)
+    const videoComments= await Comment.find({video:videoId}).sort({createdAt:-1}).skip(skip).limit(limit)
 
     return res.status(200)
     .json(
@@ -44,7 +44,7 @@ const addComment = asyncHandler(async (req, res) => {
         throw new ApiError(400, "video id is not valid")
     }
 
-    const createdComment = await Comments.create({
+    const createdComment = await Comment.create({
         content,
         owner: req.user?._id,
         video: videoId
@@ -72,7 +72,7 @@ const updateComment = asyncHandler(async (req, res) => {
         throw new ApiError(400, "invalid comment id")
     }
 
-    const comment = await Comments.findById(commentId)
+    const comment = await Comment.findById(commentId)
 
     if (!comment) {
         throw new ApiError(400, "comment does not exist")
@@ -82,7 +82,7 @@ const updateComment = asyncHandler(async (req, res) => {
         throw new ApiError(403, "Unauthorised user access")
     }
 
-    const updatedComment = await Comments.findByIdAndUpdate(
+    const updatedComment = await Comment.findByIdAndUpdate(
         commentId,
         { content: newContent },
         { new: true }
@@ -104,7 +104,7 @@ const deleteComment = asyncHandler(async (req, res) => {
         throw new ApiError(400, "invalid comment id")
     }
 
-    const comment = await Comments.findById(commentId)
+    const comment = await Comment.findById(commentId)
 
     if (!comment) {
         throw new ApiError(400, "comment does not exist")
@@ -114,7 +114,7 @@ const deleteComment = asyncHandler(async (req, res) => {
         throw new ApiError(403, "Unauthorised user access")
     }
 
-    await Comments.findByIdAndDelete(commentId)
+    await Comment.findByIdAndDelete(commentId)
 
     return res.status(200).json(
         new ApiResponse(200, {}, "comment deleted successfully")

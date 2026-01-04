@@ -3,7 +3,7 @@ import { Subscription } from "../models/subscription.models.js"
 import { ApiError } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
-import { Videos } from "../models/video.models.js"
+import { Video } from "../models/video.models.js"
 import { User } from "../models/user.models.js"
 
 const getChannelStats = asyncHandler(async (req, res) => {
@@ -18,7 +18,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
         throw new ApiError(404, "channel does not exist")
     }
 
-    const totalVideos = await Videos.countDocuments({ owner: channelId })
+    const totalVideos = await Video.countDocuments({ owner: channelId })
 
     const totalSubscribers = await Subscription.countDocuments({
         channel: channelId
@@ -44,7 +44,7 @@ const getChannelVideos = asyncHandler(async (req, res) => {
         throw new ApiError(404, "channel does not exist")
     }
 
-    const channelVideos = await Videos.find({ owner: channelId })
+    const channelVideos = await Video.find({ owner: channelId })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(Number(limit))

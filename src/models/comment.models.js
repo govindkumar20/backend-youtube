@@ -17,4 +17,4 @@ const commentsSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-export const Comments = mongoose.model("Comments", commentsSchema)
+export const Comment = mongoose.model("Comment", commentsSchema)
