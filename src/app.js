@@ -3,7 +3,6 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import { multerErrorHandler } from "./middlewares/multer.middleware.js";
 
-app.use(multerErrorHandler);
 
 
 const app = express()
