@@ -2,6 +2,13 @@
 
 A production-ready backend API for a YouTube-like platform built with **Node.js, Express, MongoDB**, and deployed on **Render**.
 
+- Built a production-ready REST API for a YouTube-like platform
+- Implemented JWT authentication with access & refresh tokens
+- Integrated Multer and Cloudinary for image uploads
+- Secured passwords using bcrypt and Mongoose middleware
+- Deployed backend to Render with MongoDB Atlas
+- Designed modular MVC architecture with middleware-based validation
+
 ## 🚀 Live URL
 https://backend-youtube-uvur.onrender.com
 
