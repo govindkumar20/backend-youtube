@@ -25,21 +25,24 @@ https://backend-youtube-uvur.onrender.com
 
 ## 📦 API Endpoints
 
-### Auth
+## Auth
 | Method | Route | Description |
 |------|------|-------------|
 | POST | /api/v1/users/register | Register user |
 | POST | /api/v1/users/login | Login user |
-| POST | /api/v1/users/logout | Logout |
-| POST | /api/v1/users/refresh-token | Refresh token |
+| POST | /api/v1/users/logout | Logout user |
+| POST | /api/v1/users/refresh-token | Refresh access token |
+| POST | /api/v1/users/change-password | Change password |
 
-### User
+## User
 | Method | Route | Description |
 |------|------|-------------|
 | GET | /api/v1/users/current-user | Get logged-in user |
 | PATCH | /api/v1/users/update-account | Update profile |
 | PATCH | /api/v1/users/avatar | Update avatar |
 | PATCH | /api/v1/users/cover-image | Update cover image |
+| GET | /api/v1/users/c/:username | Get channel profile |
+
 
 ## ⚙️ Environment Variables
 ```env
