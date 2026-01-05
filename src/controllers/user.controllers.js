@@ -94,7 +94,7 @@ const loginUser= asyncHandler( async (req,res) => {
 
     const{userName, email, password}=req.body
 
-    if([userName, email, password].some((fiels)=>{return field?.trim()===""})){
+    if([userName, email, password].some((field)=>{return field?.trim()===""})){
         throw new ApiError(400," Enter all the required fields")
     }
 
